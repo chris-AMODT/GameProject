@@ -7,7 +7,9 @@ TEMPLATE = app
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    character.cpp
 
 HEADERS += \
-    mainwindow.h
+    mainwindow.h \
+    character.h
