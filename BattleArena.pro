@@ -8,8 +8,10 @@ TEMPLATE = app
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    character.cpp
+    character.cpp \
+    battlefieldwidget.cpp
 
 HEADERS += \
     mainwindow.h \
-    character.h
+    character.h \
+    battlefieldwidget.h

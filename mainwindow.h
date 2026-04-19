@@ -4,6 +4,9 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QVBoxLayout>
+#include <QStackedWidget>
+#include "battlefieldwidget.h"
+#include "character.h"
 
 class MainWindow : public QMainWindow
 {
@@ -15,9 +18,20 @@ public:
 private slots:
     void startGame();
     void exitGame();
+    void goToMenu();
 
 private:
-    QLabel      *titleLabel;
-    QPushButton *startBtn;
-    QPushButton *exitBtn;
+    QStackedWidget    *pages;
+
+    QWidget           *menuPage;
+    QLabel            *titleLabel;
+    QPushButton       *startBtn;
+    QPushButton       *exitBtn;
+
+    QWidget           *battlePage;
+    BattlefieldWidget *battlefield;
+    QPushButton       *backBtn;
+
+    Character         *player;
+    Character         *opponent;
 };
