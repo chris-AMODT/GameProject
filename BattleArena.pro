@@ -9,9 +9,11 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     character.cpp \
-    battlefieldwidget.cpp
+    battlefieldwidget.cpp \
+    game.cpp
 
 HEADERS += \
     mainwindow.h \
     character.h \
-    battlefieldwidget.h
+    battlefieldwidget.h \
+    game.h

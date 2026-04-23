@@ -7,6 +7,7 @@
 #include <QStackedWidget>
 #include "battlefieldwidget.h"
 #include "character.h"
+#include "game.h"
 
 class MainWindow : public QMainWindow
 {
@@ -19,6 +20,7 @@ private slots:
     void startGame();
     void exitGame();
     void goToMenu();
+    void onGameOver(QString winnerName);
 
 private:
     QStackedWidget    *pages;
@@ -31,7 +33,8 @@ private:
     QWidget           *battlePage;
     BattlefieldWidget *battlefield;
     QPushButton       *backBtn;
+    QPushButton       *restartBtn;
+    QLabel            *statusLabel;
 
-    Character         *player;
-    Character         *opponent;
+    Game              *game;
 };

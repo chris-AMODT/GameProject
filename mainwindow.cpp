@@ -1,8 +1,11 @@
 #include "mainwindow.h"
 #include <QApplication>
+#include <QHBoxLayout>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
+    game = new Game(this);
+
     pages = new QStackedWidget(this);
     setCentralWidget(pages);
 
@@ -33,35 +36,43 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     battlePage = new QWidget();
     QVBoxLayout *battleLayout = new QVBoxLayout(battlePage);
-    battleLayout->setContentsMargins(0, 0, 0, 0);
+    battleLayout->setContentsMargins(4, 4, 4, 4);
 
-    backBtn = new QPushButton("Back to Menu");
-    backBtn->setFixedWidth(120);
+    QHBoxLayout *topBar = new QHBoxLayout();
+    backBtn = new QPushButton("Menu");
+    restartBtn = new QPushButton("Restart");
+    statusLabel = new QLabel("Fighting...");
+    statusLabel->setAlignment(Qt::AlignCenter);
+    topBar->addWidget(backBtn);
+    topBar->addWidget(restartBtn);
+    topBar->addStretch();
+    topBar->addWidget(statusLabel);
+    topBar->addStretch();
 
     battlefield = new BattlefieldWidget();
 
-    battleLayout->addWidget(backBtn);
+    battleLayout->addLayout(topBar);
     battleLayout->addWidget(battlefield);
 
     pages->addWidget(menuPage);
     pages->addWidget(battlePage);
 
-    player = new Character("Player", CharacterClass::Warrior, true);
-    opponent = new Character("CPU", CharacterClass::Mage, false);
-    player->position = QPointF(150, 250);
-    opponent->position = QPointF(650, 250);
-
-    battlefield->setPlayer(player);
-    battlefield->setOpponent(opponent);
-
     connect(startBtn, &QPushButton::clicked, this, &MainWindow::startGame);
     connect(exitBtn, &QPushButton::clicked, this, &MainWindow::exitGame);
     connect(backBtn, &QPushButton::clicked, this, &MainWindow::goToMenu);
+    connect(restartBtn, &QPushButton::clicked, game, &Game::restart);
+    connect(game, &Game::frameReady, battlefield, QOverload<>::of(&QWidget::update));
+    connect(game, &Game::gameOver, this, &MainWindow::onGameOver);
 }
 
 void MainWindow::startGame()
 {
+    game->startGame(CharacterClass::Warrior);
+    battlefield->setPlayer(game->player);
+    battlefield->setOpponent(game->opponent);
+    statusLabel->setText("Fighting...");
     pages->setCurrentWidget(battlePage);
+    battlefield->setFocus();
 }
 
 void MainWindow::exitGame()
@@ -71,5 +82,11 @@ void MainWindow::exitGame()
 
 void MainWindow::goToMenu()
 {
+    game->state = GameState::Menu;
     pages->setCurrentWidget(menuPage);
+}
+
+void MainWindow::onGameOver(QString winnerName)
+{
+    statusLabel->setText(winnerName + " wins!");
 }
