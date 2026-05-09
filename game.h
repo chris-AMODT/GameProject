@@ -3,6 +3,8 @@
 #include <QObject>
 #include <QTimer>
 #include "character.h"
+#include "ai.h"
+#include "animationmanager.h"
 
 enum class GameState {
     Menu,
@@ -22,10 +24,12 @@ public:
     void pauseResume();
     void restart();
 
-    GameState state;
-    Character *player;
-    Character *opponent;
-    QString winner;
+    GameState        state;
+    Character       *player;
+    Character       *opponent;
+    QString          winner;
+    AI               ai;
+    AnimationManager anim;
 
 signals:
     void frameReady();
@@ -36,6 +40,5 @@ private slots:
 
 private:
     QTimer timer;
-    void runAI();
     void checkWin();
 };

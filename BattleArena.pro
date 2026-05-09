@@ -10,10 +10,20 @@ SOURCES += \
     mainwindow.cpp \
     character.cpp \
     battlefieldwidget.cpp \
-    game.cpp
+    game.cpp \
+    inputhandler.cpp \
+    ai.cpp \
+    scoremanager.cpp \
+    animationmanager.cpp \
+    savemanager.cpp
 
 HEADERS += \
     mainwindow.h \
     character.h \
     battlefieldwidget.h \
-    game.h
+    game.h \
+    inputhandler.h \
+    ai.h \
+    scoremanager.h \
+    animationmanager.h \
+    savemanager.h

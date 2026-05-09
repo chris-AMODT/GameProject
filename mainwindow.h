@@ -5,9 +5,14 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QStackedWidget>
+#include <QComboBox>
+#include <QFileDialog>
 #include "battlefieldwidget.h"
 #include "character.h"
 #include "game.h"
+#include "inputhandler.h"
+#include "scoremanager.h"
+#include "savemanager.h"
 
 class MainWindow : public QMainWindow
 {
@@ -21,6 +26,9 @@ private slots:
     void exitGame();
     void goToMenu();
     void onGameOver(QString winnerName);
+    void nextRound();
+    void saveGame();
+    void loadGame();
 
 private:
     QStackedWidget    *pages;
@@ -28,13 +36,23 @@ private:
     QWidget           *menuPage;
     QLabel            *titleLabel;
     QPushButton       *startBtn;
+    QPushButton       *saveBtn;
+    QPushButton       *loadBtn;
     QPushButton       *exitBtn;
+    QComboBox         *classSelector;
+    QComboBox         *diffSelector;
+    QLabel            *classLabel;
+    QLabel            *diffLabel;
 
     QWidget           *battlePage;
     BattlefieldWidget *battlefield;
     QPushButton       *backBtn;
-    QPushButton       *restartBtn;
+    QPushButton       *nextRoundBtn;
     QLabel            *statusLabel;
+    QLabel            *scoreLabel;
 
     Game              *game;
+    InputHandler      *input;
+    ScoreManager      *scores;
+    SaveManager        saver;
 };

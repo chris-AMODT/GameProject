@@ -1,8 +1,7 @@
 #include "game.h"
 #include <QRandomGenerator>
-#include <QtMath>
 
-Game::Game(QObject *parent) : QObject(parent)
+Game::Game(QObject *parent) : QObject(parent), anim(this)
 {
     player = nullptr;
     opponent = nullptr;
@@ -47,38 +46,36 @@ void Game::restart()
 
 void Game::tick()
 {
+    int playerHpBefore   = player->hp;
+    int opponentHpBefore = opponent->hp;
+
     player->tickCooldown();
-    opponent->tickCooldown();
-    runAI();
+    ai.tick(*opponent, *player);
+
+    if (opponent->hp < opponentHpBefore) {
+        int dmg = opponentHpBefore - opponent->hp;
+        anim.spawnHit(opponent->position, dmg);
+    }
+    if (player->hp < playerHpBefore) {
+        int dmg = playerHpBefore - player->hp;
+        anim.spawnHit(player->position, dmg);
+    }
+
+    anim.tick();
     checkWin();
     emit frameReady();
-}
-
-void Game::runAI()
-{
-    if (!opponent->isAlive()) return;
-
-    float dx = player->position.x() - opponent->position.x();
-    float dy = player->position.y() - opponent->position.y();
-    float dist = qSqrt(dx * dx + dy * dy);
-
-    if (dist > opponent->attackRange) {
-        float nx = dx / dist;
-        float ny = dy / dist;
-        opponent->position += QPointF(nx * opponent->speed, ny * opponent->speed);
-    } else {
-        opponent->tryAttack(*player);
-    }
 }
 
 void Game::checkWin()
 {
     if (!player->isAlive()) {
+        anim.spawnDeath(player->position, QColor(70, 130, 210));
         winner = "CPU";
         state = GameState::GameOver;
         timer.stop();
         emit gameOver(winner);
     } else if (!opponent->isAlive()) {
+        anim.spawnDeath(opponent->position, QColor(210, 70, 70));
         winner = "Player";
         state = GameState::GameOver;
         timer.stop();
