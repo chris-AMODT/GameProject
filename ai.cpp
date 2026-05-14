@@ -65,6 +65,11 @@ void AI::doApproach(Character &opponent, Character &player)
     float spd = opponent.speed * speedScale();
     opponent.position += QPointF(nx * spd, ny * spd);
     circleTimer++;
+
+    if (opponent.position.x() < 20) opponent.position.setX(20);
+    if (opponent.position.x() > 780) opponent.position.setX(780);
+    if (opponent.position.y() < 20) opponent.position.setY(20);
+    if (opponent.position.y() > 480) opponent.position.setY(480);
 }
 
 void AI::doAttack(Character &opponent, Character &player)
@@ -84,6 +89,11 @@ void AI::doRetreat(Character &opponent, Character &player)
     float ny = dy / dist;
     float spd = opponent.speed * speedScale() * 0.8f;
     opponent.position += QPointF(nx * spd, ny * spd);
+
+    if (opponent.position.x() < 20) opponent.position.setX(20);
+    if (opponent.position.x() > 780) opponent.position.setX(780);
+    if (opponent.position.y() < 20) opponent.position.setY(20);
+    if (opponent.position.y() > 480) opponent.position.setY(480);
 }
 
 void AI::doCircle(Character &opponent, Character &player)
@@ -106,4 +116,9 @@ void AI::doCircle(Character &opponent, Character &player)
     float spd = opponent.speed * speedScale();
     opponent.position += QPointF(px * spd, py * spd);
     opponent.tryAttack(player);
+
+    if (opponent.position.x() < 20) opponent.position.setX(20);
+    if (opponent.position.x() > 780) opponent.position.setX(780);
+    if (opponent.position.y() < 20) opponent.position.setY(20);
+    if (opponent.position.y() > 480) opponent.position.setY(480);
 }

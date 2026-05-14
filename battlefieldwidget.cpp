@@ -91,7 +91,8 @@ void BattlefieldWidget::paintEvent(QPaintEvent *)
         f.setBold(true);
         f.setPointSize(11);
         painter.setFont(f);
-        painter.drawText(QRectF(pos.x()-24, pos.y()-24, 48, 48), Qt::AlignCenter, opponent->name.left(1));
+        QString oppLetter = opponent->className().left(1);
+        painter.drawText(QRectF(pos.x()-24, pos.y()-24, 48, 48), Qt::AlignCenter, oppLetter);
 
         float pct = opponent->hpPercent();
         painter.setPen(Qt::NoPen);
